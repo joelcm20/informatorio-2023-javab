@@ -58,4 +58,16 @@ public class PedidoServicioImpl implements PedidoServicio {
         }
         return pedidos;
     }
+
+    @Override
+    public void listarPedidos(List<Pedido> pedidos) {
+        if (pedidos.isEmpty()) {
+            System.out.println("Lista de pedidos vacia.\n");
+            return;
+        }
+
+        for (Pedido p : pedidos) {
+            System.out.println(String.format("ID[%d] %s | %s", p.getId(), p.getCliente().getNombre(), p.getEstado()));
+        }
+    }
 }

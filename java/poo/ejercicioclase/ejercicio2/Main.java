@@ -10,6 +10,8 @@ import poo.ejercicioclase.ejercicio2.entrada.InputConsoleService;
 import poo.ejercicioclase.ejercicio2.enums.EstadoPedido;
 import poo.ejercicioclase.ejercicio2.servicio.carrito.CarritoServicio;
 import poo.ejercicioclase.ejercicio2.servicio.carrito.CarritoServicioImpl;
+import poo.ejercicioclase.ejercicio2.servicio.menu.MenuCliente;
+import poo.ejercicioclase.ejercicio2.servicio.menu.MenuClienteImpl;
 import poo.ejercicioclase.ejercicio2.servicio.menu.MenuCompra;
 import poo.ejercicioclase.ejercicio2.servicio.menu.MenuCompraImpl;
 import poo.ejercicioclase.ejercicio2.servicio.pedido.PedidoServicioImpl;
@@ -17,6 +19,8 @@ import poo.ejercicioclase.ejercicio2.servicio.producto.ProductoServicio;
 import poo.ejercicioclase.ejercicio2.servicio.producto.ProductoServicioImpl;
 import poo.ejercicioclase.ejercicio2.servicio.stock.StockServicioImpl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -27,7 +31,7 @@ public class Main {
     public static void main(String[] args) {
         BdProductos.initProducts();
 
-        
+
         //Creacion de scanner
         InputConsoleService.createScanner();
         Cliente cliente = new Cliente();
@@ -36,7 +40,7 @@ public class Main {
         cliente.setDireccion("Calle falsa 123");
         cliente.setEmail("CorreoFalso@gmail.com");
         cliente.setCarrito(new Carrito());
-        carritoEnCurso = cliente.getCarrito();
+        Main.carritoEnCurso = cliente.getCarrito();
 
         CarritoServicio carritoServicio = new CarritoServicioImpl(new StockServicioImpl(),
                 new PedidoServicioImpl());
@@ -53,16 +57,16 @@ public class Main {
             System.out.println("Ingrese una opcion");
             opc = InputConsoleService.getScanner().nextInt();
 
-            switch (opc){
+            switch (opc) {
                 case 1:
                     getAllProducts();
                     System.out.println("Ver productos");
                     break;
                 case 2:
                     Optional<Producto> productoOptional = menuCompra.seleccionarProducto();
-                    if (productoOptional.isPresent()){
+                    if (productoOptional.isPresent()) {
                         int cantidad = menuCompra.seleccionarCantidad();
-                        carritoServicio.addProduct(productoOptional.get(),cantidad);
+                        carritoServicio.addProduct(productoOptional.get(), cantidad);
                     }
                     break;
                 case 3:
@@ -73,9 +77,9 @@ public class Main {
                         - Descontar el stock de los productos del carrito
                      */
                     boolean resultado = carritoServicio.cerrarCarrito();
-                    if (Boolean.TRUE.equals(resultado)){
+                    if (Boolean.TRUE.equals(resultado)) {
                         System.out.println("Carrito cerrado");
-                    }else {
+                    } else {
                         System.out.println("Algo salio mal!");
                     }
                     break;
@@ -86,7 +90,14 @@ public class Main {
                         - Metodo que muestre por pantalla solo los pedidos del estado (state) dado.
                         Usar en state el enum EstadoPedido
                      */
-                    System.out.println("Ver compras realizadas");
+                    List<Pedido> pedidos = new ArrayList<>();
+                    EstadoPedido ep = new MenuClienteImpl().obtenerNombreEstadoPedido();
+                    if (Objects.isNull(ep)) {
+                        pedidos = new PedidoServicioImpl().obtenerPedidos(cliente);
+                    } else {
+                        pedidos = new PedidoServicioImpl().obtenePedidos(cliente, ep);
+                    }
+                    new PedidoServicioImpl().listarPedidos(pedidos);
                     break;
                 case 0:
                     System.out.println("Salir");
@@ -95,7 +106,7 @@ public class Main {
                     System.out.println("Error! Opcion invalida");
             }
 
-        }while (opc != 0);
+        } while (opc != 0);
 
         InputConsoleService.closeScanner();
     }
