@@ -48,7 +48,7 @@ public class PedidoServicioImpl implements PedidoServicio {
     }
 
     @Override
-    public List<Pedido> obtenePedidos(Cliente cliente, EstadoPedido ep) {
+    public List<Pedido> obtenerPedidos(Cliente cliente, EstadoPedido ep) {
         // obtener todos los pedidos del cliente segun el estado
         List<Pedido> pedidos = new ArrayList<>();
         for (Pedido p : this.obtenerPedidos(cliente)) {

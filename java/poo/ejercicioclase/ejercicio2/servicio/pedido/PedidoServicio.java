@@ -15,7 +15,7 @@ public interface PedidoServicio {
 
     List<Pedido> obtenerPedidos(Cliente cliente);
 
-    List<Pedido> obtenePedidos(Cliente cliente, EstadoPedido ep);
+    List<Pedido> obtenerPedidos(Cliente cliente, EstadoPedido ep);
 
     void listarPedidos(List<Pedido> pedidos);
 }

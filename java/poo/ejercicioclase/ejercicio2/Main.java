@@ -90,12 +90,14 @@ public class Main {
                         - Metodo que muestre por pantalla solo los pedidos del estado (state) dado.
                         Usar en state el enum EstadoPedido
                      */
-                    List<Pedido> pedidos = new ArrayList<>();
+                    List<Pedido> pedidos;
                     EstadoPedido ep = new MenuClienteImpl().obtenerNombreEstadoPedido();
                     if (Objects.isNull(ep)) {
+                        // obtemer todos los pedidos
                         pedidos = new PedidoServicioImpl().obtenerPedidos(cliente);
                     } else {
-                        pedidos = new PedidoServicioImpl().obtenePedidos(cliente, ep);
+                        // obtener pedidos con el estado seleccionado
+                        pedidos = new PedidoServicioImpl().obtenerPedidos(cliente, ep);
                     }
                     new PedidoServicioImpl().listarPedidos(pedidos);
                     break;
