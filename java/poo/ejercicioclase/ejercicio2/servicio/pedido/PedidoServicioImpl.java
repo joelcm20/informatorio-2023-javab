@@ -2,9 +2,12 @@ package poo.ejercicioclase.ejercicio2.servicio.pedido;
 
 import poo.ejercicioclase.ejercicio2.Main;
 import poo.ejercicioclase.ejercicio2.domain.Carrito;
+import poo.ejercicioclase.ejercicio2.domain.Cliente;
 import poo.ejercicioclase.ejercicio2.domain.Pedido;
 import poo.ejercicioclase.ejercicio2.enums.EstadoPedido;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class PedidoServicioImpl implements PedidoServicio {
@@ -24,9 +27,9 @@ public class PedidoServicioImpl implements PedidoServicio {
 
         Pedido pedido = new Pedido();
 
-        if (Objects.isNull(idPedido)){
+        if (Objects.isNull(idPedido)) {
             pedido.setId(1L);
-        }else {
+        } else {
             pedido.setId(idPedido + 1);
         }
 
@@ -35,5 +38,24 @@ public class PedidoServicioImpl implements PedidoServicio {
         pedido.setCarrito(carrito);
 
         return pedido;
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidos(Cliente cliente) {
+        // obtener todos los pedidos del cliente
+        List<Pedido> pedidos = cliente.getPedidos();
+        return pedidos;
+    }
+
+    @Override
+    public List<Pedido> obtenePedidos(Cliente cliente, EstadoPedido ep) {
+        // obtener todos los pedidos del cliente segun el estado
+        List<Pedido> pedidos = new ArrayList<>();
+        for (Pedido p : this.obtenerPedidos(cliente)) {
+            if (p.getEstado().equals(ep)) {
+                pedidos.add(p);
+            }
+        }
+        return pedidos;
     }
 }
