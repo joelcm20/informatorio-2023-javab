@@ -16,7 +16,7 @@ public class MenuClienteImpl implements MenuCliente {
         boolean ok = Boolean.TRUE;
         do {
             try {
-                System.out.print("Estado del pedido:\n1. PENDIENTE.\n2. PAGADO.\n3. ENVIADO.\n4. ENTREGADO.\n");
+                System.out.print("Estado del pedido:\n1. PENDIENTE.\n2. PAGADO.\n3. ENVIADO.\n4. ENTREGADO.\n0. TODOS.\n");
                 System.out.print("opcion: ");
                 opcion = Integer.parseInt(InputConsoleService.getScanner().nextLine());
                 ok = Boolean.FALSE;
